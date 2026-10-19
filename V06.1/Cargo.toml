@@ -1,0 +1,28 @@
+[package]
+name = "mineos-win"
+version = "0.6.1"
+edition = "2021"
+description = "Windows-first Minecraft Java server manager with a built-in WebUI"
+license = "MIT"
+
+[dependencies]
+sysinfo = "0.33"
+axum = { version = "0.8.9", features = ["multipart"] }
+tokio = { version = "1.48", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.37", features = ["bundled"] }
+uuid = { version = "1", features = ["v4"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json", "stream"] }
+futures-util = "0.3"
+sha2 = "0.10"
+sha1 = "0.10"
+hex = "0.4"
+zip = { version = "0.6.6", default-features = false, features = ["deflate"] }
+
+argon2 = "0.5"
+rand = "0.8"
+
+tokio-util = { version = "0.7", features = ["io"] }
