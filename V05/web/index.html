@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MineOS-Win</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header><div class="brand"><span class="cube">◆</span><span>MineOS-Win</span><small>0.5 備份管理</small></div><span class="subtle">Windows Minecraft Server Manager</span></header>
+  <main>
+    <section id="loginPanel" class="card narrow">
+      <h1>連線到管理中心</h1>
+      <p>首次登入請輸入 <code>admin-token.txt</code> 的管理 Token；設定新密碼後，改用你的密碼登入。</p>
+      <label>管理密碼／首次登入 Token <input id="token" type="password" autocomplete="current-password" placeholder="輸入管理密碼"></label>
+      <div class="buttons"><button id="loginBtn" class="primary">登入</button></div>
+    </section>
+
+    <div id="workspace" hidden>
+      <div class="headline"><div><h1>伺服器控制台</h1><p>多伺服器獨立 Port、RAM 與 Console</p></div><div class="buttons"><button id="changePasswordBtn" type="button">變更管理密碼</button><button id="refreshBtn">重新整理</button><button id="logoutBtn">登出</button></div></div>
+      <form id="passwordForm" class="card passwordPanel" hidden>
+        <h2>變更管理密碼</h2>
+        <p>首次設定新密碼時，「目前密碼」請填管理 Token。修改後舊 Token 會立即失效。</p>
+        <div class="formgrid">
+          <label class="wide">目前密碼／首次登入 Token<input name="current_password" type="password" autocomplete="current-password" required></label>
+          <label>新密碼（至少 12 字元）<input name="new_password" type="password" minlength="12" autocomplete="new-password" required></label>
+          <label>再次輸入新密碼<input name="confirm_password" type="password" minlength="12" autocomplete="new-password" required></label>
+          <div class="buttons wide"><button class="primary" type="submit">儲存新密碼</button><button id="cancelPasswordBtn" type="button">取消</button></div>
+        </div>
+      </form>
+      <p class="dataLocation">資料儲存位置：<code id="dataLocation">讀取中…</code> <button type="button" id="copyDataBtn" class="smallBtn">複製</button></p>
+      <article class="card javaManager">
+        <div class="headline"><div><h2>Java 版本管理</h2><p>直接從 Eclipse Adoptium 下載 Windows x64 JDK，免安裝，不更改 Windows PATH。可同時保存多個版本。</p></div><button id="javaRefreshBtn" type="button">重新整理 Java</button></div>
+        <div id="javaList" class="runtimeList">讀取中…</div>
+        <div class="hint">下載檔驗證 SHA-256 後才會解壓；每個 Server 可以選擇不同 Java。需有連線到 Adoptium 與下載站的網路環境。</div>
+      </article>
+      <section class="layout">
+        <div class="stack">
+          <article class="card">
+            <h2>新增伺服器</h2>
+            <form id="createForm" class="formgrid">
+              <label>名稱<input name="name" required maxlength="60" placeholder="Survival"></label>
+              <label>Port<input name="port" type="number" min="1" max="65535" value="25565" required></label>
+              <label>伺服器核心<select name="core_type" id="coreType"><option value="paper">Paper（自動下載）</option><option value="vanilla">Vanilla 原版（自動下載）</option><option value="fabric">Fabric（自動安裝）</option><option value="forge">Forge（自動安裝）</option><option value="neoforge">NeoForge（自動安裝）</option><option value="manual">其他核心（手動上傳 JAR）</option></select></label>
+              <label id="versionLabel">Minecraft 版本<input name="mc_version" id="mcVersion" list="minecraftVersions" placeholder="例如 1.21.11" required><datalist id="minecraftVersions"></datalist><small class="hint" id="versionHint">從官方取得版本列表中…</small></label>
+              <label>最小記憶體（MB）<input name="xms_mb" type="number" min="256" value="1024" required></label>
+              <label>最大記憶體（MB）<input name="xmx_mb" type="number" min="256" value="4096" required></label>
+              <label class="wide">Java 執行環境
+                <select name="java_command" id="javaChoice">
+                  <option value="managed:21">內建 Java 21（須先下載）</option>
+                  <option value="managed:25">內建 Java 25（須先下載）</option>
+                  <option value="managed:17">內建 Java 17（須先下載）</option>
+                  <option value="managed:11">內建 Java 11（須先下載）</option>
+                  <option value="managed:8">內建 Java 8（須先下載）</option>
+                  <option value="java">Windows PATH 中的 java</option>
+                </select>
+              </label>
+              <label class="check"><input name="auto_start" type="checkbox"> 管理器啟動時自動啟動</label>
+              <label class="check"><input name="auto_restart" type="checkbox"> 異常結束時重新啟動</label>
+              <div id="createAdvice" class="hint wide">建立後會在背景下載核心；Java 請先從上方下載。</div>
+              <button class="primary wide" type="submit">建立 Server 並下載核心</button>
+            </form>
+          </article>
+          <article class="card"><h2>伺服器清單</h2><div id="servers" class="serverList"><div class="hint">尚無資料</div></div></article>
+        </div>
+        <div class="stack">
+          <article class="card"><h2>選取的伺服器 <span id="selectedName" class="subtle">—</span></h2><div class="hint" id="selectedHint">從左側選取一台 Server</div>
+            <div id="detail" hidden>
+              <div class="info" id="serverInfo"></div>
+              <div id="coreStatus" class="hint"></div>
+              <button id="retryCoreBtn" type="button" hidden>重新下載核心（可換版本）</button>
+              <div class="buttons serverActions">
+                <button id="startBtn" class="primary">啟動</button>
+                <button id="stopBtn">停止</button>
+                <button id="restartBtn">重新啟動</button>
+                <div id="eulaPrompt" class="eulaInline">
+                  <button id="eulaBtn" type="button">我已閱讀並同意 EULA</button>
+                  <a href="https://www.minecraft.net/eula" target="_blank" rel="noopener noreferrer">閱讀 Minecraft EULA</a>
+                </div>
+              </div>
+              <div class="buttons"><button id="editSettingsBtn" type="button">修改 Server 設定</button><button id="openFolderBtn" type="button">在主機開啟資料夾</button><button id="copyFolderBtn" type="button">複製路徑</button></div>
+              <div class="hint pathText" id="serverPath"></div>
+              <form id="settingsForm" class="formgrid settingsPanel" hidden>
+                <h3 class="wide">伺服器啟動設定</h3>
+                <div class="wide hint">請先停止 Server 才能儲存。記憶體、Java、Port 等修改會在下一次啟動時生效，不會清除世界存檔。</div>
+                <label class="wide">Server 名稱<input name="name" maxlength="60" required></label>
+                <label>Port<input name="port" type="number" min="1" max="65535" required></label>
+                <label>最小記憶體 Xms（MB）<input name="xms_mb" type="number" min="256" required></label>
+                <label>最大記憶體 Xmx（MB）<input name="xmx_mb" type="number" min="256" required></label>
+                <label class="wide">Java 執行環境
+                  <select name="java_command" id="settingsJavaChoice">
+                    <option value="managed:21">內建 Java 21</option>
+                    <option value="managed:25">內建 Java 25</option>
+                    <option value="managed:17">內建 Java 17</option>
+                    <option value="managed:11">內建 Java 11</option>
+                    <option value="managed:8">內建 Java 8</option>
+                    <option value="java">Windows PATH 中的 java</option>
+                  </select>
+                </label>
+                <label class="check"><input name="auto_start" type="checkbox"> 管理器啟動時自動啟動</label>
+                <label class="check"><input name="auto_restart" type="checkbox"> 異常結束時重新啟動</label>
+                <div class="buttons wide"><button class="primary" type="submit" id="saveSettingsBtn">儲存設定</button><button type="button" id="cancelSettingsBtn">取消</button></div>
+              </form>
+              <div class="buttons"><button id="removeBtn" class="danger" type="button">移除管理設定（保留世界檔案）</button></div>
+
+              <hr>
+              <h3>Console</h3>
+              <div id="console" class="console" role="log" aria-live="polite"></div>
+              <form id="commandForm" class="horizontal"><input id="command" placeholder="輸入 console 指令（如 list）"><button type="submit">送出</button></form>
+              <hr>
+              <h3>核心／插件／模組 JAR 上傳</h3>
+              <form id="uploadForm" class="uploadform">
+                <label>類別<select id="folder"><option value="core">Server 核心（存成 server.jar）</option><option value="plugins">插件 plugins/</option><option value="mods">模組 mods/</option></select></label>
+                <input id="jarfile" type="file" accept=".jar" required>
+                <button type="submit">上傳 JAR</button>
+              </form>
+              <div class="hint">上傳前請先停止 Server。Fabric、Forge、NeoForge 已有專用安裝流程；Forge 與 NeoForge 的主程式不可直接上傳成 server.jar。</div>
+              <div id="files" class="filelist"></div>
+              <hr>
+              <section id="backupSection" class="backupPanel">
+                <div class="headline"><div><h3>備份與還原</h3><p>完整備份世界、插件、模組、核心與設定檔。備份期間會正常停止正在執行的 Server，完成後自動啟動。</p></div><button id="backupRefreshBtn" type="button">重新整理備份</button></div>
+                <div class="buttons"><button id="backupNowBtn" class="primary" type="button">立即完整備份</button></div>
+                <div id="backupJob" class="jobText" role="status"></div>
+                <form id="backupScheduleForm" class="formgrid backupSchedule">
+                  <label>自動備份間隔（小時）<input id="backupInterval" type="number" min="0" max="720" value="0" required><small class="hint">0 代表關閉排程；啟用後首次備份會於指定間隔後執行。</small></label>
+                  <label>自動備份保留數量<input id="backupKeep" type="number" min="1" max="50" value="5" required><small class="hint">只輪替自動備份，不會刪除手動備份。</small></label>
+                  <div class="buttons wide"><button type="submit">儲存備份排程</button><span id="backupNextDue" class="hint">自動備份未啟用</span></div>
+                </form>
+                <div class="hint">備份位置：<code id="backupPath"></code></div>
+                <div id="backupList" class="backupList"><div class="hint">讀取中…</div></div>
+                <div class="hint">還原需先停止 Server；還原前完整資料會保存在 <code>restore-safety/</code>。還原不會變更 MineOS 管理的 Port、RAM、Java 設定。</div>
+              </section>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+    <div id="notice" class="notice" role="status" hidden></div>
+  </main>
+  <footer>MineOS-Win 0.5 · 本機測試版 · 密碼與 Session 請勿分享 · 勿直接公開 HTTP 管理介面</footer>
+</body>
+</html>
