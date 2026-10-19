@@ -1,0 +1,223 @@
+{
+  "project": "MineOSRS",
+  "refactor_from": "0.7.0",
+  "version": "0.7.0",
+  "strategy": "compile-time slices; single Rust item namespace; original APIs untouched",
+  "entrypoint": "src/main.rs",
+  "slices": [
+    {
+      "path": "src/core/state.rs",
+      "purpose": "Persistent/runtime types and instance state"
+    },
+    {
+      "path": "src/core/bootstrap.rs",
+      "purpose": "Initialization, schema compatibility, router, scheduler"
+    },
+    {
+      "path": "src/core/auth.rs",
+      "purpose": "Session login and Argon2 credentials"
+    },
+    {
+      "path": "src/core/assets.rs",
+      "purpose": "Static asset HTTP adapters"
+    },
+    {
+      "path": "src/core/validation.rs",
+      "purpose": "Shared server validation and boundary tests"
+    },
+    {
+      "path": "src/core/servers.rs",
+      "purpose": "CRUD and server settings persistence"
+    },
+    {
+      "path": "src/core/process.rs",
+      "purpose": "Lifecycle, console, process status and port rules"
+    },
+    {
+      "path": "src/core/uploads.rs",
+      "purpose": "File upload, inventory, EULA"
+    },
+    {
+      "path": "src/core/errors.rs",
+      "purpose": "API error helpers"
+    }
+  ],
+  "unchanged_domains": [
+    "src/downloads.rs",
+    "src/bedrock.rs",
+    "src/backups.rs",
+    "src/hardware.rs",
+    "src/legacy_paper.rs",
+    "src/legacy_paper_cache.ps1",
+    "web/app.js",
+    "web/style.css"
+  ],
+  "v07_ui": {
+    "markup": "web/index.html",
+    "script": "web/ui-v07.js",
+    "stylesheet": "web/ui-v07.css"
+  },
+  "routes": [
+    {
+      "path": "/auth/logout",
+      "method": "post"
+    },
+    {
+      "path": "/servers",
+      "method": "get"
+    },
+    {
+      "path": "/java",
+      "method": "get"
+    },
+    {
+      "path": "/java/install",
+      "method": "post"
+    },
+    {
+      "path": "/jobs",
+      "method": "get"
+    },
+    {
+      "path": "/versions",
+      "method": "get"
+    },
+    {
+      "path": "/hardware",
+      "method": "get"
+    },
+    {
+      "path": "/builds",
+      "method": "get"
+    },
+    {
+      "path": "/servers/{id}/install-core",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/bedrock-zip",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/remove",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/settings",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/open-folder",
+      "method": "post"
+    },
+    {
+      "path": "/system",
+      "method": "get"
+    },
+    {
+      "path": "/servers/{id}/start",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/stop",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/restart",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/console",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/logs",
+      "method": "get"
+    },
+    {
+      "path": "/servers/{id}/upload",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/files",
+      "method": "get"
+    },
+    {
+      "path": "/servers/{id}/eula",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/backups",
+      "method": "get"
+    },
+    {
+      "path": "/servers/{id}/backups/settings",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/backups/{name}/restore",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/backups/{name}/delete",
+      "method": "post"
+    },
+    {
+      "path": "/servers/{id}/backups/{name}/download",
+      "method": "get"
+    },
+    {
+      "path": "/api/auth/login",
+      "method": "post"
+    },
+    {
+      "path": "/api/auth/change-password",
+      "method": "post"
+    },
+    {
+      "path": "/",
+      "method": "get"
+    },
+    {
+      "path": "/app.js",
+      "method": "get"
+    },
+    {
+      "path": "/style.css",
+      "method": "get"
+    },
+    {
+      "path": "/ui-v07.js",
+      "method": "get"
+    },
+    {
+      "path": "/ui-v07.css",
+      "method": "get"
+    }
+  ],
+  "db_file": "mineos.db",
+  "db_tables": [
+    "servers",
+    "app_settings",
+    "backup_schedules"
+  ],
+  "data_root_order": [
+    "MINEOS_DATA_DIR",
+    "LOCALAPPDATA/MineOS-Win",
+    "executable_parent/data"
+  ],
+  "preservation_contract": [
+    "No API removal",
+    "No data migration",
+    "No browser-visible DOM edit",
+    "No changed original startup/Java/core/backup behavior"
+  ],
+  "checks": [
+    "python scripts/verify-refactor.py ORIGINAL.zip",
+    "node --check web/app.js",
+    "node --check web/ui-v07.js",
+    "cargo test",
+    "cargo build --release"
+  ],
+  "validation_warning": "Cargo was unavailable in refactor environment; Windows compilation is pending"
+}

@@ -1,0 +1,154 @@
+
+/* MineOSRS V0.6.1 hardware panel - theme-neutral and scoped */
+.mine-host-panel{margin:14px 0 22px;padding:18px;border:1px solid rgba(127,127,127,.30);border-radius:12px;background:rgba(127,127,127,.07);color:inherit}
+.mine-host-top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.mine-host-top h2{margin:0;font-size:1.1rem}
+.mine-host-top small,.mine-host-sub,.mine-host-note{opacity:.75;font-size:.83rem}
+.mine-host-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:10px}
+.mine-host-tile{padding:13px;border:1px solid rgba(127,127,127,.22);border-radius:9px;min-width:0}
+.mine-host-label{font-size:.80rem;opacity:.75;margin-bottom:8px}
+.mine-host-title{font-size:1rem;font-weight:650;overflow-wrap:anywhere;margin-bottom:9px}
+.mine-host-metric{display:flex;gap:10px;align-items:baseline;margin:8px 0 6px}
+.mine-host-metric b{font-size:1.25rem;font-variant-numeric:tabular-nums}
+.mine-host-metric span{opacity:.7;font-size:.76rem}
+.mine-host-track{height:7px;background:rgba(127,127,127,.25);border-radius:999px;overflow:hidden;margin-top:7px}
+.mine-host-bar{display:block;height:100%;width:0%;background:#47a9ca;transition:width .5s}
+.mine-host-disks{margin-top:16px}
+.mine-host-disks h3{font-size:.95rem;margin:0 0 8px}
+.mine-host-disk{padding:6px 0;font-size:.85rem}
+.mine-host-note{margin-bottom:0}
+
+
+
+/* MineOSRS V0.6.1 — Unified create/edit server form */
+.mi-editing-card {
+  border: 2px solid #df9633 !important;
+  box-shadow: 0 0 0 3px rgba(223, 150, 51, .18) !important;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+#miEditNotice {
+  padding: 11px 14px;
+  margin: 0 0 14px;
+  border: 1px solid rgba(223, 150, 51, .55);
+  border-left: 5px solid #df9633;
+  border-radius: 8px;
+  background: rgba(223, 150, 51, .10);
+  font-size: .92rem;
+  line-height: 1.5;
+}
+.mi-editing-card #createForm button[type="submit"] {
+  background: #bf781b !important;
+  color: white !important;
+}
+#miCancelEditBtn {background: transparent;border: 1px solid rgba(127,127,127,.50);}
+.mi-editing-card #createForm [data-mi-locked="true"] {opacity: .75;cursor: not-allowed;}
+
+
+
+/* MineOSRS V0.7 — fresh implementation inspired by MineOS' information architecture.
+   Independent CSS, no upstream MineOS code copied.
+   Classic accent #55859f reflects MineOS Node's serene.css. */
+html[data-mi07-theme="classic"] {
+  --mi07-bg: #e9eef2; --mi07-surface: #ffffff; --mi07-raised: #f3f6f8;
+  --mi07-side: #303d49; --mi07-side-text: #d4e0e8; --mi07-side-hover: #435564;
+  --mi07-text: #233544; --mi07-muted: #647482; --mi07-border: #d6dfe7;
+  --mi07-accent: #55859f; --mi07-accent-strong: #426e87; --mi07-link: #376c89;
+  --mi07-input: #ffffff; --mi07-shadow: rgba(22,46,62,.07); --mi07-terminal: #121c26;
+}
+html[data-mi07-theme="dark"] {
+  color-scheme: dark;
+  --mi07-bg: #101720; --mi07-surface: #1b2531; --mi07-raised: #263443;
+  --mi07-side: #0a1119; --mi07-side-text: #d9e5ee; --mi07-side-hover: #1c2e3e;
+  --mi07-text: #e6eef5; --mi07-muted: #a5b6c6; --mi07-border: #35495b;
+  --mi07-accent: #72a9c5; --mi07-accent-strong: #477d99; --mi07-link: #92cae9;
+  --mi07-input: #1a2835; --mi07-shadow: rgba(0,0,0,.27); --mi07-terminal: #090f16;
+}
+html[data-mi07-theme] body.mi07-logged-in { margin:0; background:var(--mi07-bg)!important; color:var(--mi07-text)!important; }
+body.mi07-logged-in > header, body.mi07-logged-in > footer { display:none!important; }
+body.mi07-logged-in > main { width:100%!important; max-width:none!important; margin:0!important; padding:0!important; }
+body.mi07-logged-in #workspace { display:block!important; margin:0!important; padding:0!important; max-width:none!important; width:100%!important; }
+body.mi07-logged-in #workspace[hidden] { display:none!important; }
+#mi07Shell, #mi07Shell * { box-sizing:border-box; }
+#mi07Shell { display:grid; grid-template-columns:250px minmax(0,1fr); min-height:100vh; background:var(--mi07-bg); color:var(--mi07-text); font:14px/1.5 system-ui, -apple-system, 'Segoe UI', sans-serif; }
+#mi07Shell .mi07-side { background:var(--mi07-side); color:var(--mi07-side-text); min-height:100vh; padding:20px 12px 18px; position:sticky; top:0; height:100vh; overflow-y:auto; }
+#mi07Shell .mi07-logo { display:flex; align-items:center; gap:10px; padding:8px 12px 19px; font-size:1.27rem; font-weight:750; color:#fff; letter-spacing:.3px; }
+#mi07Shell .mi07-logo-icon { display:grid; place-items:center; width:34px; height:34px; border:1px solid #79a7c0; color:#fff; background:var(--mi07-accent-strong); border-radius:9px; }
+#mi07Shell .mi07-version { color:#9fb2be; font-size:11px; font-weight:500; }
+#mi07Shell .mi07-group { font-size:10px; color:#99b0be; font-weight:750; text-transform:uppercase; letter-spacing:1.6px; margin:16px 12px 7px; }
+#mi07Shell .mi07-nav { display:grid; gap:3px; }
+#mi07Shell .mi07-nav button { width:100%; padding:11px 12px; border:0; border-radius:8px; cursor:pointer; display:flex; gap:10px; align-items:center; font:inherit; text-align:left; color:var(--mi07-side-text); background:transparent; box-shadow:none; min-height:39px; }
+#mi07Shell .mi07-nav button:hover { background:var(--mi07-side-hover); }
+#mi07Shell .mi07-nav button.mi07-active { background:var(--mi07-accent-strong); color:#fff; font-weight:700; border-left:3px solid #c5eaff; }
+#mi07Shell .mi07-nav button:focus-visible, #mi07Shell button:focus-visible { outline:2px solid #a2d9f3; outline-offset:2px; }
+#mi07Shell .mi07-nav .mi07-ico { width:20px; text-align:center; font-size:16px; flex-shrink:0; }
+#mi07Shell .mi07-side-info { margin-top:28px; padding:13px 12px; border-top:1px solid rgba(255,255,255,.15); color:#aac0ce; font-size:12px; overflow-wrap:anywhere; }
+#mi07Shell .mi07-side-info strong { color:#fff; font-weight:650; }
+#mi07Shell .mi07-main { min-width:0; padding:0; background:var(--mi07-bg); }
+#mi07Shell .mi07-topbar { position:sticky; top:0; z-index:9; background:var(--mi07-surface); padding:15px clamp(16px,2.2vw,32px); display:flex; gap:12px; align-items:center; justify-content:space-between; border-bottom:1px solid var(--mi07-border); }
+#mi07Shell .mi07-topbar h1 { font-size:1.26rem; line-height:1.35; margin:0; color:var(--mi07-text); }
+#mi07Shell .mi07-crumb { color:var(--mi07-muted); font-size:11px; margin-bottom:2px; }
+#mi07Shell .mi07-toptools { display:flex; align-items:center; gap:9px; min-width:0; flex-wrap:wrap; justify-content:flex-end; }
+#mi07Shell .mi07-theme-btn { background:var(--mi07-raised); color:var(--mi07-text); border:1px solid var(--mi07-border); min-height:36px; border-radius:9px; padding:8px 12px; cursor:pointer; white-space:nowrap; font-size:12px; }
+#mi07Shell .mi07-menu-btn { display:none; background:var(--mi07-raised); color:var(--mi07-text); border:1px solid var(--mi07-border); border-radius:8px; min-width:38px; min-height:36px; cursor:pointer; }
+#mi07Shell .mi07-original-headline { margin:0; padding:0; display:flex; align-items:center; gap:5px; }
+#mi07Shell .mi07-original-headline > div:not(.buttons) { display:none!important; }
+#mi07Shell .mi07-original-headline .buttons { display:flex; gap:7px; flex-wrap:wrap; align-items:center; }
+#mi07Shell .mi07-original-headline button { padding:8px 10px; min-height:35px; font-size:12px; border-radius:8px; white-space:nowrap; }
+#mi07Shell .mi07-pages { max-width:1500px; margin:0 auto; padding:clamp(16px,2.5vw,32px); }
+#mi07Shell .mi07-page { display:block; min-width:0; }
+#mi07Shell .mi07-page[hidden] { display:none!important; }
+#mi07Shell .mi07-page-title { display:flex; align-items:center; justify-content:space-between; gap:15px; margin-bottom:18px; }
+#mi07Shell .mi07-page-title h2 { font-size:1.35rem; color:var(--mi07-text); margin:0; }
+#mi07Shell .mi07-page-title p { color:var(--mi07-muted); margin:3px 0 0; font-size:13px; }
+#mi07Shell .card, #mi07Shell .mine-host-panel { color:var(--mi07-text)!important; background:var(--mi07-surface)!important; border:1px solid var(--mi07-border)!important; box-shadow:0 4px 16px var(--mi07-shadow); border-radius:12px!important; padding:clamp(14px,2vw,22px)!important; margin:0 0 16px!important; max-width:none; }
+#mi07Shell .card h2, #mi07Shell .card h3, #mi07Shell .mine-host-panel h2, #mi07Shell .mine-host-panel h3 { color:var(--mi07-text); }
+#mi07Shell .subtle, #mi07Shell .hint, #mi07Shell .card p, #mi07Shell small { color:var(--mi07-muted); }
+#mi07Shell .mine-host-grid { grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+#mi07Shell .mine-host-tile { background:var(--mi07-raised); border:1px solid var(--mi07-border); }
+#mi07Shell .mine-host-bar { background:var(--mi07-accent); }
+#mi07Shell button.primary, #mi07Shell .card button.primary { background:var(--mi07-accent-strong)!important; color:#fff!important; border-color:var(--mi07-accent-strong)!important; }
+#mi07Shell button:not(.mi07-nav button, .mi07-theme-btn, .mi07-menu-btn) { border-radius:8px; }
+#mi07Shell input:not([type="checkbox"],[type="radio"]), #mi07Shell select, #mi07Shell textarea { color:var(--mi07-text)!important; background:var(--mi07-input)!important; border:1px solid var(--mi07-border)!important; border-radius:8px; max-width:100%; }
+#mi07Shell input::placeholder { color:var(--mi07-muted); }
+#mi07Shell a { color:var(--mi07-link); }
+#mi07Shell .console { background:var(--mi07-terminal)!important; color:#d8e9f5!important; border:1px solid var(--mi07-border); border-radius:8px; min-height:230px; max-height:65vh; overflow:auto; font-family:Consolas, 'Cascadia Code', monospace; }
+#mi07Shell .mi07-server-crumb { color:var(--mi07-muted); font-size:12px; }
+#mi07Shell #servers { display:grid; gap:10px; }
+#mi07Shell #miEditNotice { color:var(--mi07-text); }
+#mi07Shell .mi-editing-card { border:2px solid #df9633!important; box-shadow:0 0 0 3px rgba(223,150,51,.16)!important; }
+#mi07Shell .mi07-view-hidden { display:none!important; }
+#mi07Shell [hidden] { display:none!important; }
+#mi07Shell .mi07-guide { margin:10px 0 0; padding:15px 18px; background:var(--mi07-raised); border:1px solid var(--mi07-border); border-radius:10px; color:var(--mi07-muted); }
+#mi07Shell .mi07-quicklink { display:inline-flex; align-items:center; margin-top:12px; gap:6px; background:var(--mi07-raised); border:1px solid var(--mi07-border); color:var(--mi07-text); border-radius:8px; padding:9px 12px; font-size:13px; cursor:pointer; }
+#mi07Shell .mi07-statbar { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin:0 0 18px; }
+#mi07Shell .mi07-stat { background:var(--mi07-surface); border:1px solid var(--mi07-border); border-radius:10px; padding:15px 17px; }
+#mi07Shell .mi07-stat .mi07-stat-label { color:var(--mi07-muted); font-size:12px; }
+#mi07Shell .mi07-stat .mi07-stat-value { color:var(--mi07-text); font-size:24px; font-weight:800; margin-top:3px; }
+#mi07Shell .mi07-blank { padding:24px; text-align:center; border:1px dashed var(--mi07-border); border-radius:10px; color:var(--mi07-muted); background:var(--mi07-raised); }
+#mi07Shell .mi07-detail-wrapper .card { margin:0!important; }
+#mi07Shell #backupSection { margin:0!important; }
+#mi07Shell .mi07-mobile-shade { display:none; }
+@media (max-width:1100px) {
+ #mi07Shell { grid-template-columns:216px minmax(0,1fr); }
+ #mi07Shell .mi07-topbar { align-items:flex-start; }
+ #mi07Shell .mi07-original-headline .buttons { justify-content:flex-end; }
+}
+@media (max-width:760px) {
+ #mi07Shell { display:block; }
+ #mi07Shell .mi07-side { position:fixed; top:0; bottom:0; left:0; width:min(270px,85vw); height:100vh; z-index:41; transform:translateX(-105%); transition:transform .2s; }
+ #mi07Shell.mi07-menu-open .mi07-side { transform:translateX(0); }
+ #mi07Shell .mi07-mobile-shade { display:none; position:fixed; inset:0; z-index:40; background:rgba(0,0,0,.56); }
+ #mi07Shell.mi07-menu-open .mi07-mobile-shade { display:block; }
+ #mi07Shell .mi07-menu-btn { display:inline-block; }
+ #mi07Shell .mi07-topbar { align-items:flex-start; padding:13px 12px; flex-wrap:wrap; }
+ #mi07Shell .mi07-topbar h1 { font-size:1.12rem; }
+ #mi07Shell .mi07-original-headline { order:3; width:100%; }
+ #mi07Shell .mi07-original-headline .buttons { justify-content:flex-start; }
+ #mi07Shell .mi07-pages { padding:14px 10px 30px; }
+ #mi07Shell .mi07-page-title { margin-bottom:12px; }
+ #mi07Shell .mi07-statbar { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ #mi07Shell .formgrid { grid-template-columns:minmax(0,1fr); }
+ #mi07Shell .formgrid > .wide { grid-column:auto; }
+}
+@media (prefers-reduced-motion:reduce) { #mi07Shell * {scroll-behavior:auto!important; transition:none!important;} }
+
